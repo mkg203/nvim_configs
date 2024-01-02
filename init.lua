@@ -101,7 +101,7 @@ vim.o.expandtab = true
 vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
--- vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -109,6 +109,7 @@ vim.o.breakindent = true
 -- Tab in visual mode
 vim.keymap.set("v", "<Tab>", ">gv")
 vim.keymap.set("v", "<S-Tab>", "<gv") 
+vim.o.tabstop=4
 
 -- Save undo history
 vim.o.undofile = true
