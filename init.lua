@@ -12,6 +12,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ''
 require("lazy").setup({
 	{
 	  "folke/tokyonight.nvim",
@@ -19,13 +21,21 @@ require("lazy").setup({
 	  priority = 1000,
 	  opts = {},
 	},
+       {
+	  -- Highlight, edit, and navigate code
+	  'nvim-treesitter/nvim-treesitter',
+	  dependencies = {
+	    'nvim-treesitter/nvim-treesitter-textobjects',
+	  },
+	  build = ':TSUpdate',
+	},
 	'tpope/vim-sleuth',
 	{ "folke/which-key.nvim",  opts = {} },
 	{ "max397574/better-escape.nvim", opts = {}},
 	{ "echasnovski/mini.surround", opts = {}},
 	{ "windwp/nvim-autopairs", opts = {}},
 	{ "jose-elias-alvarez/null-ls.nvim", opts = {}},
-	{ 'akinsho/bufferline.nvim', opts = {}},
+	-- { 'akinsho/bufferline.nvim', opts = {}},
 	{ 'williamboman/mason.nvim', config = true },
 	{ 'numToStr/Comment.nvim', opts = {} },
 	{
@@ -44,6 +54,12 @@ require("lazy").setup({
     		},
   	},
 	{
+	    "iamcco/markdown-preview.nvim",
+	    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+	    ft = { "markdown" },
+	    build = function() vim.fn["mkdp#util#install"]() end,
+	},
+	{
         -- Autocompletion
 	  'hrsh7th/nvim-cmp',
 	  dependencies = {
@@ -58,6 +74,25 @@ require("lazy").setup({
 	    'rafamadriz/friendly-snippets',
 	  },
       },
+{
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      -- Only load if `make` is available. Make sure you have the system
+      -- requirements installed.
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+    },
+  },
+},
       {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -73,6 +108,7 @@ require("lazy").setup({
   },
 
 }, {})
+-- require("lazy").setup("plugins")
 
 
 vim.cmd[[colorscheme tokyonight-night]]
@@ -87,6 +123,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- OPTIONS
+-- Tab size
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
